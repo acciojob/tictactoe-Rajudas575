@@ -1,4 +1,3 @@
-//your JS code here. If required.
 let currentPlayer = 'X';
 let player1 = '';
 let player2 = '';
@@ -18,18 +17,20 @@ document.getElementById('submit').addEventListener('click', () => {
 
 cells.forEach(cell => {
     cell.addEventListener('click', () => {
-        const cellIndex = cell.id - 1;
+        const cellIndex = cell.id - 1; // Convert cell id to index
+        // Check if cell is empty and no winner yet
         if (!board[cellIndex] && !checkWinner()) {
-            board[cellIndex] = currentPlayer;
-            cell.textContent = currentPlayer;
+            board[cellIndex] = currentPlayer; // Update board
+            cell.textContent = currentPlayer; // Display symbol
 
+            // Check for a winner
             if (checkWinner()) {
                 messageDiv.textContent = currentPlayer === 'X' ? `${player1} congratulations you won!` : `${player2} congratulations you won!`;
-                return;
+            } else {
+                // Switch player
+                currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                messageDiv.textContent = currentPlayer === 'X' ? `${player1}, you're up!` : `${player2}, you're up!`;
             }
-
-            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-            messageDiv.textContent = currentPlayer === 'X' ? `${player1}, you're up!` : `${player2}, you're up!`;
         }
     });
 });
@@ -49,8 +50,8 @@ function checkWinner() {
     for (const combination of winningCombinations) {
         const [a, b, c] = combination;
         if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-            return true;
+            return true; // Found a winner
         }
     }
-    return false;
+    return false; // No winner yet
 }
